@@ -1,0 +1,33 @@
+{
+  "name": "@loke/redis-cache",
+  "version": "0.0.0",
+  "description": "Redis Cache",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc ava",
+    "lint": "xo && prettier -l index.js"
+  },
+  "author": "Dominic Smith",
+  "license": "MIT",
+  "peerDependencies": {
+    "prom-client": "7.x"
+  },
+  "dependencies": {
+    "pify": "^3.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.22.0",
+    "eslint-config-prettier": "^2.6.0",
+    "nyc": "^11.2.1",
+    "prettier": "^1.7.2",
+    "prom-client": "^7.2.0",
+    "redis": "^2.8.0",
+    "xo": "^0.18.2"
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "xo": {
+    "extends": "prettier"
+  }
+}

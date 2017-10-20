@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - '6'
+  - '8'
+services:
+  - redis-server
+script:
+  - npm test
+  - npm run lint
+deploy:
+  provider: npm
+  email: npm@loke.com.au
+  api_key:
+    secure: ouxKwU2jSTFzID5bcxGqgeUZdr3QMx+Y48tP1PTn6IcTWeYZLU7yex5w+5BDFtkEvR/VWzwplGnvXyIo/+k+dO7jqg47Ge4vc2Ns1jAE4oHuyRVvPegU0o7qEje9rRKJu5RwjNVpiUGXxrXMcSwAtSnIl1pzMiXJ14i2TG1S+rapbF1uroy+GxXVRVJHKWXJpHHZf/tLpxuTjlc/EntUn06uEkbyigccwIjYQyHn6H2heYePqUpO4KOg3at5UMadiUTjA7api5e/Ky+hh3nO6EIC/9ymHplrCXuFRG4EsEgdfGe3iDjsbqT2pabGbWyvNak6JkCFAXRq0NciyAraFnZ1aLP5GdJ5o2V69f09usDBLblTpkFDOzwxblawgoVp8lQzjTiAD3cCBgFXimLVCVBguf6RwrPC2CWz1gV/wsxvx3/ELMg8PQv8glxfAbZvvLJGaFyP4uUHHDq/PscN951kSjgYKYfNvUjCwOd4A06Rpwl/M7+eySIvBDieb2f0CmNZtBliUwTN1P/inEDYGme+tWVhISPlDXLWEmDGVgZEW8lqCcn+L8DAgdqnYlBVl2xzJ7FKA/uFsSzeJekXuuxG+NZ/7DzcAXE6cNTGcR6d/WSSu2GdCbwYRjYPfGAGfs+S/ui8Jtip8rUap0GiG+XA8d9XGNeiPKfoB1pM0Ys=
+  on:
+    tags: true
+    repo: LOKE/loke-redis-cache
