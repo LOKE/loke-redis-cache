@@ -7,6 +7,14 @@ jobs:
     services:
       redis:
         image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
     
     steps:
       - uses: actions/checkout@v1
@@ -15,8 +23,6 @@ jobs:
           node-version: 12
       - run: npm ci
       - run: npm test
-        env:
-          REDIS_HOST: redis
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
