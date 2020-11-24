@@ -7,7 +7,10 @@ import { RedisCache, cacheKey, Reviver, registerMetrics } from ".";
 registerMetrics(register);
 
 const randomId = () => crypto.randomBytes(16).toString("hex");
-const redisClient = redis.createClient();
+
+const redisClient = redis.createClient({
+  host: process.env.REDIS_HOST || "localhost",
+});
 const cache = new RedisCache({ redisClient, prefix: "test:" });
 
 test("should generate formatted keys", (t) => {
