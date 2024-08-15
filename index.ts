@@ -132,6 +132,9 @@ export class RedisCache implements Cache {
     this.singleFlightGetCache = new Map();
     this.singleFlightApplyCache = new Map();
 
+    // Redis@3 & Redis@2 need to be promisified b/c they can't return promises (Redis@4 can)
+    // Ioredis already returns promises, so it returns the following warning when used
+    // (node:21449) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.
     this._get = promisify(redisClient.get).bind(redisClient);
     this._psetex = promisify(redisClient.psetex).bind(redisClient);
     this._del = promisify(redisClient.del).bind(redisClient);
