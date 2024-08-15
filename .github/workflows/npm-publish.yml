@@ -3,10 +3,10 @@ on: push
 jobs:
   publish:
     runs-on: ubuntu-latest
-    
+
     services:
       redis:
-        image: redis
+        image: redis3
         # Set health checks to wait until redis has started
         options: >-
           --health-cmd "redis-cli ping"
@@ -15,7 +15,7 @@ jobs:
           --health-retries 5
         ports:
           - 6379:6379
-    
+
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
