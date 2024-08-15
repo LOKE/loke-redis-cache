@@ -1,6 +1,5 @@
 import { promisify } from "util";
 import { Counter, Histogram, exponentialBuckets, Registry } from "prom-client";
-import type { RedisClient } from "redis";
 
 const queryCount = new Counter({
   name: "cache_queries_total",
@@ -72,6 +71,25 @@ export interface Reviver {
   (this: any, key: string, value: any): any;
 }
 
+export interface RedisClient {
+  get(
+    key: string,
+    cb?: (
+      err: Error | null | undefined,
+      reply: string | null | undefined
+    ) => void
+  ): void;
+  psetex(
+    key: string,
+    milliseconds: number,
+    value: string,
+    cb?: (err: Error | null | undefined) => void
+  ): void;
+  del(
+    ...args: [...key: string[], cb: (err: Error | null | undefined) => void]
+  ): void;
+}
+
 export interface RedisCacheOptions {
   /**
    * a redis client, see https://www.npmjs.com/package/redis
@@ -102,9 +120,9 @@ export class RedisCache implements Cache {
   private singleFlightGetCache: Map<string, Promise<string>>;
   private singleFlightApplyCache: Map<string, Promise<string>>;
 
-  private _get: (key: string) => Promise<string | null>;
-  private _psetex: (key: string, ttl: number, value: string) => Promise<string>;
-  private _del: (key: string) => Promise<number>;
+  private _get: (key: string) => Promise<string | null | undefined>;
+  private _psetex: (key: string, ttl: number, value: string) => Promise<void>;
+  private _del: (key: string) => Promise<void>;
 
   constructor(options: RedisCacheOptions) {
     const { prefix, redisClient } = options;
@@ -114,6 +132,9 @@ export class RedisCache implements Cache {
     this.singleFlightGetCache = new Map();
     this.singleFlightApplyCache = new Map();
 
+    // Redis@3 & Redis@2 need to be promisified b/c they can't return promises (Redis@4 can)
+    // Ioredis already returns promises, so it returns the following warning when used
+    // (node:21449) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.
     this._get = promisify(redisClient.get).bind(redisClient);
     this._psetex = promisify(redisClient.psetex).bind(redisClient);
     this._del = promisify(redisClient.del).bind(redisClient);

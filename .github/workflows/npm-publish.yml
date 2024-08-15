@@ -3,7 +3,7 @@ on: push
 jobs:
   publish:
     runs-on: ubuntu-latest
-    
+
     services:
       redis:
         image: redis
@@ -15,12 +15,12 @@ jobs:
           --health-retries 5
         ports:
           - 6379:6379
-    
+
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 18
       - run: npm ci
       - run: npm test
       - uses: JS-DevTools/npm-publish@v1
