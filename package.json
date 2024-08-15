@@ -10,8 +10,8 @@
   "scripts": {
     "test": "eslint . && ava -v",
     "lint": "eslint . ",
-    "_prepare": "npm run build",
-    "_build": "rm -rf ./dist && tsc"
+    "prepare": "npm run build",
+    "build": "rm -rf ./dist && tsc"
   },
   "author": "Dominic Smith",
   "license": "MIT",
