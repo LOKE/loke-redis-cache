@@ -298,10 +298,7 @@ export function create(options: RedisCacheOptions): RedisCache {
  * key.getString(prefix) === "foo:user:5:session:a42799b8";
  * key.getMetaString(prefix) === "foo:user:{0}:session:{1}";
  */
-export function cacheKey(
-  strings: TemplateStringsArray,
-  ...values: string[]
-): CacheKey {
+export function cacheKey(strings: string[], ...values: string[]): CacheKey {
   return {
     getString: (prefix: string) =>
       prefix + strings.reduce((out, str, i) => out + values[i - 1] + str),
