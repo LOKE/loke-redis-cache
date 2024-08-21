@@ -299,7 +299,7 @@ export function create(options: RedisCacheOptions): RedisCache {
  * key.getMetaString(prefix) === "foo:user:{0}:session:{1}";
  */
 export function cacheKey(
-  strings: TemplateStringsArray,
+  strings: readonly string[],
   ...values: string[]
 ): CacheKey {
   return {
