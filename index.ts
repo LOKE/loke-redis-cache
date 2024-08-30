@@ -310,7 +310,9 @@ export function cacheKey(
   };
 }
 
-export function registerMetrics(registry: Registry): void {
+export function registerMetrics(
+  registry: Pick<Registry, "registerMetric">
+): void {
   registry.registerMetric(queryCount);
   registry.registerMetric(hitCount);
   registry.registerMetric(queryDuration);
